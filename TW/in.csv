@@ -1,0 +1,12 @@
+# This is the file from TW
+
+# This is a comment
+
+Product, Origin Year, Development Year, Incremental Value
+
+Comp, 1992, 1992, 40.0
+Comp, 1992, 1993, 50.0
+Comp, 1993, 1993, 60.0
+
+Non-Comp, 1990, 1990, 19.0
+
