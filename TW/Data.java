@@ -10,19 +10,19 @@ public class Data implements DataType{
     /********************************************************************/
 	
 	public String getProduct(){	
-		return null;
+		return this.product;
 	}
 	
 	public Integer getOriginYear(){	
-		return null;
+		return this.originYear;
 	}
 	
 	public Integer getDevelopmentYear(){	
-		return null;
+		return this.developmentYear;
 	}
 	
 	public Float getIncrementalValue(){	
-		return null;
+		return this.incrementalValue;
 	}
 	
 	/********************************************************************/

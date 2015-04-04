@@ -83,8 +83,9 @@ public class FileTW implements FileReader{
 			line = line.replaceAll("\\s", "");
             
             /* We ignore comments or empty line because they contain no data */
+            /* Here we could add a condition to accept line that have as many terms as headings */
             if ((line.length() == 0)||(line.startsWith("#"))){
-                
+                // We just ignore the line
             }
 			else{
 				
