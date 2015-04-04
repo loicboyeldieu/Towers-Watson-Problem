@@ -1,11 +1,15 @@
+/* Loïc Boyeldieu - 2015 */
+
 import java.io.File;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Arrays;
 
-public class FileTW implements FileReader{
-
+public class FileTW implements TWFileReader{
+	
+	
+	/* We accept many different separators, in France for exemple we usually use ";" */
 	public final static List<Character> AVAILABLE_SEPARATORS = Collections.unmodifiableList(new ArrayList<Character>(Arrays.asList(',', ';', '|')));
 
 	public final static char DEFAULT_SEPARATOR = ',';
@@ -21,6 +25,7 @@ public class FileTW implements FileReader{
     // CONSTRUCTORS //
     /********************************************************************/
     
+    /* This constructor use by default the ',' separator */
     public FileTW(File file){
     	if (file == null) {
             throw new IllegalArgumentException("The file cannot be null");
@@ -30,7 +35,7 @@ public class FileTW implements FileReader{
     	init();
     }
     
-    
+    /* With this constructor you can specify the separator you are using in the file */
     public FileTW(File file, char separator){
     	if (file == null) {
             throw new IllegalArgumentException("The file cannot be null");
@@ -83,7 +88,6 @@ public class FileTW implements FileReader{
 			line = line.replaceAll("\\s", "");
             
             /* We ignore comments or empty line because they contain no data */
-            /* Here we could add a condition to accept line that have as many terms as headings */
             if ((line.length() == 0)||(line.startsWith("#"))){
                 // We just ignore the line
             }
@@ -92,13 +96,17 @@ public class FileTW implements FileReader{
 				/* We use the split function to separate each data seperated by the separator*/
 				String[] oneData = line.split(sep);
 				
-				/* We know that the first wanted line is headings*/
+				/* We know that the first interesting line (not comment or empty line) is headings*/
 				/* so we add the data to the titles' tab*/ 
 				if (first) {
                 	titles = oneData;
                 	first = false;
             	} else {
-                	data.add(oneData);
+            		/* We accept only lines that have as many terms as headings */
+            		/* so that if there is a mistake in the file, we ignore it */
+            		if (oneData.length == titles.length){
+                		data.add(oneData);
+            		}
             	}
             	
 			}

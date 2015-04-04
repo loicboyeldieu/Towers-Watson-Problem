@@ -1,3 +1,6 @@
+/* Loïc Boyeldieu - 2015 */
+/* This file describe a data that we can find in the initial file */
+
 public class Data implements DataType{
 	
 	private String product;

@@ -1,3 +1,7 @@
+/* Loïc Boyeldieu - 2015 */
+/* This file is our Data Access Object to Data from file because it is better to avoid 
+to work directly with the file */
+
 import java.util.List;
 import java.util.ArrayList;
 import java.io.File;
@@ -8,6 +12,13 @@ public class DataDao implements DataDaoType{
 	private File file;
 	private FileTW filetw;
 	
+	/********************************************************************/
+    // CONSTRUCTORS //
+    /********************************************************************/
+    
+    /* The idea is to have a private constructor so you are forced to use the constructor that */
+    /* ask for a file in parameter */
+    
 	private DataDao() {
         super();
     }
@@ -18,10 +29,25 @@ public class DataDao implements DataDaoType{
         this.filetw = new FileTW(file);
     }
     
+    /********************************************************************/
+    // GETTERS AND SETTERS //
+    /********************************************************************/
     
     public FileTW getFileTW(){
     	return this.filetw;	
     }
+    
+    public void setFileTW(FileTW F){
+    	this.filetw = F;	
+    }
+    
+    
+    /********************************************************************/
+    // USEFULL FUNCTIONS //
+    /********************************************************************/
+    
+    
+	/* getAllDatas() convert all the datas from the file to a list of objects of type Data */
 	
 	public List<DataType> getAllDatas(){
 		

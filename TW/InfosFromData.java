@@ -1,10 +1,9 @@
+/* Loïc Boyeldieu - 2015 */
+/* This file get all the datas necessary to construct the matrix */
+
 import java.util.List;
 import java.util.ArrayList;
 import java.io.File;
-
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 
 public class InfosFromData{
 	
@@ -78,6 +77,13 @@ public class InfosFromData{
 	
 	
 	
+	/********************************************************************/
+    // CONSTRUCTORS //
+    /********************************************************************/
+	
+	private InfosFromData(){
+		
+	}
 	
 	public InfosFromData(DataDao D, List <TriangleMatrix> m){
 		this.dataList = D.getAllDatas();
@@ -89,11 +95,18 @@ public class InfosFromData{
 	}
 	
 	
+	/********************************************************************/
+    // USEFULL FONCTIONS TO GET INFORMATION FROM DATAS //
+    /********************************************************************/
+	
+	/* This function return the list of the different products */
 	public List<String> findDifferentProject(){
 		List<String> L = new ArrayList<String>();
 		for (DataType d : getDataList()){
+			/* If we have already add the product we do nothing */
 			if (L.contains(d.getProduct())){
 			}
+			/* else we have never met the product and we add it to the list */
 			else{
 				L.add(d.getProduct());
 			}	
@@ -102,6 +115,7 @@ public class InfosFromData{
 	}
 	
 	
+	/* This function returns the origin year, ie the lowest year */
 	public Integer findLowerYear(){
 		Integer y = Integer.MAX_VALUE;
 		for (DataType d : getDataList()){
@@ -112,6 +126,7 @@ public class InfosFromData{
 		return y;	
 	} 
 	
+	/* This function returns the origin year, ie the highest year */
 	public Integer findHigherYear(){
 		Integer y = Integer.MIN_VALUE;
 		for (DataType d : getDataList()){
@@ -125,7 +140,8 @@ public class InfosFromData{
 		return y;		
 	}
 	
-	
+	/* If you want to display the list of different product you can use this function*/
+	/* useful to make tests */
 	public void diplayListProduct(){
 		for (String s : getProductList()){
 			System.out.println(s);
@@ -133,14 +149,22 @@ public class InfosFromData{
 	}
 	
 	
-	
-	public void fillAllMatrix(){	
+	/* This function create matrix and fill then with the datas, and then add it to the list */
+	/* of matrix */
+	public void constructAllMatrix(){	
 		
 		for (String s : getProductList()){
 			
 			TriangleMatrix tm = new TriangleMatrix(getNbOfDevelopmentYear(), getLowerYear(), s);
+			
 			/* Full the matrix using the datas */
 			for (DataType d : getDataList()){
+				
+				/* For each data (ie line in the original file) we add the incremental value */
+				/* in the right cell. */
+				/* Example : Comp, 1990, 1993, 40.0 */
+				/* If lower year of the file is 1990, then the line is 1990-1990 =0 */
+				/* and the column is 1993 (development year) - 1990 (origin year of data) = 3 */   
 				if (d.getProduct().equals(s)){
 					tm.setMatrix(tm.addValueInMatrix(tm.getMatrix(), d.getOriginYear()-getLowerYear(), d.getDevelopmentYear()-d.getOriginYear(), d.getIncrementalValue()));	
 				}	
@@ -150,13 +174,14 @@ public class InfosFromData{
 			
 	}
 	
-	
+	/* This function transform the List of Matrix to cumulativeMatrix*/
 	public void transformMatrix(){
 		for (TriangleMatrix tm : getMatrixList()){
 			tm.cumulativeMatrix(tm.getMatrix());	
 		}	
 	}
 	
+	/* You can use this function to display all the matrix in the list */
 	public void displayAllMatrix(){
 		for (TriangleMatrix m : matrixList){
 			m.displayMatrix(m.getMatrix());	
@@ -165,56 +190,12 @@ public class InfosFromData{
 		
 	}
 	
+	/* This function transform a matrix to the String output asked for the output file */
 	public void finalMatrixToString(){
 		
 		for (TriangleMatrix m : matrixList){	
 			System.out.println(m.transformMatrixToString(m.getMatrix()));
 		}	
-		
-	}
-	
-	
-	public void writeFile(){
-		try {
-
-			FileWriter fileWriter = new FileWriter("out.cvs", false);
-
-			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-			bufferedWriter.write(getLowerYear() + "," + getNbOfDevelopmentYear()+"\n");
-			for (TriangleMatrix m : matrixList){	
-				bufferedWriter.write(m.transformMatrixToString(m.getMatrix())+"\n");
-			}	
-
-			bufferedWriter.flush();
-			bufferedWriter.close();
-			System.out.println("Fichier créé");
-		} catch (IOException ioe) {
-			System.err
-					.println("Erreur levée de type IOException au niveau de la méthode "
-							+ "writeFile(...) : ");
-			ioe.printStackTrace();
-		}
-	
-	}
-	
-	public static void main(String[] args){
-		File F = new File("in.csv");
-		DataDao DD = new DataDao(F);
-		List <TriangleMatrix> mList = new ArrayList<TriangleMatrix>();
-		InfosFromData IFD = new InfosFromData(DD, mList);
-			
-		IFD.diplayListProduct();
-		
-		System.out.println("Lower Year : " + IFD.getLowerYear());
-		System.out.println("Higher Year : " + IFD.getHigherYear());
-		System.out.println("Nb Development Year : " + IFD.getNbOfDevelopmentYear());
-		
-		IFD.fillAllMatrix();
-		//IFD.displayAllMatrix();
-		IFD.transformMatrix();
-		IFD.writeFile();
-		
-		
 		
 	}
 	

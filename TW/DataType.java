@@ -1,3 +1,5 @@
+/* Loïc Boyeldieu - 2015 */
+
 public interface DataType {
 	
 	String getProduct();
