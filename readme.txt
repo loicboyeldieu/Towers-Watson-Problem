@@ -13,7 +13,7 @@ I found the subject very interesting :)
 
 HOW TO USE : 
 
-The file containing the datas is « in.csv »
+The file containing the data is « in.csv »
 The output file created is « out.csv »
 
 Use a terminal and go to the folder TW
@@ -32,9 +32,9 @@ IMPORTANT TO KNOW :
 
 - The input file has to be named « in.csv ». 
 - It must be in the same folder than the java classes.
-- Name of product cannot have a comma in their names because it is the default separator and has to be a String.
-- Years has to be Intergers
-- Incremental value has to be float
+- Product cannot have a comma in their names because it is the default separator.
+- Years has to be Intergers.
+- Incremental value has to be float.
 
 - To test you can add more triangles in the input file, changing the year dates.
 
@@ -47,12 +47,17 @@ WHAT DO MY PROGRAM :
 file I attached, there are 3 triangles.
 
 - In practise data files may contain errors or the data may be in an unexpected format. There is much to do to cover all possibilities. My program do the followings :
+	
 	• If you enter many times the same data line with different incremental value, it keeps the last one.
+	
 	• Comments and empty line can be added to the input file without problems.
+	
 	• If a data line contains more data than specified by headings, then it is ignore. We consider that the
 	line contains mistakes and should not be evaluate.
+	
 	• The separator is a comma but in France it could be a semi-column. So the default separator used in this 
 	file is the comma but it could be another one.
+	
 	• The data line are not forced to be order by product name.
 
 
